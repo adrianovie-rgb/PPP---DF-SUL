@@ -1,0 +1,487 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FM METRICS PPP W15-W20</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,'Segoe UI',sans-serif;background:#f0f2f5;color:#232f3e;font-size:13px;line-height:1.5}
+input[name="tab"]{display:none}
+.hdr{background:#232f3e;padding:14px 28px;display:flex;justify-content:space-between;align-items:center}
+.hdr h1{color:#ff9900;font-size:18px;font-weight:700}.hdr span{color:#aab7c4;font-size:11px}
+.tabs{background:#37475a;display:flex;gap:2px;padding:0 16px;flex-wrap:wrap}
+.tabs label{padding:11px 20px;cursor:pointer;font-weight:600;font-size:11px;color:#d5dbdb;border-radius:6px 6px 0 0;transition:.15s}
+.tabs label:hover{background:#485769;color:#fff}
+#t0:checked~.tabs label[for=t0],#t1:checked~.tabs label[for=t1],#t2:checked~.tabs label[for=t2],#t3:checked~.tabs label[for=t3],#t4:checked~.tabs label[for=t4]{background:#f0f2f5;color:#232f3e;border-bottom:3px solid #ff9900}
+.cnt{padding:20px 24px}
+.pn{display:none}
+#t0:checked~.cnt #p0,#t1:checked~.cnt #p1,#t2:checked~.cnt #p2,#t3:checked~.cnt #p3,#t4:checked~.cnt #p4{display:block}
+.kg{display:grid;gap:12px;margin-bottom:20px}
+.k5{grid-template-columns:repeat(5,1fr)}.k6{grid-template-columns:repeat(6,1fr)}.k4{grid-template-columns:repeat(4,1fr)}.k3{grid-template-columns:repeat(3,1fr)}
+.kc{background:#fff;padding:14px 10px;border-radius:8px;text-align:center;border:1px solid #e8e8e8}
+.kl{color:#666;font-size:10px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
+.kv{font-size:22px;font-weight:700;font-family:'Courier New',monospace;margin-bottom:3px}
+.bg{display:inline-block;padding:2px 10px;border-radius:12px;font-size:10px;font-weight:700}
+.bg-ok{background:#d5f5e3;color:#15803d}.bg-at{background:#fef9e7;color:#b8860b}.bg-cr{background:#fadbd8;color:#dc2626}.bg-na{background:#eaeded;color:#666}
+.bg-d1{background:#e8daef;color:#6c3483}
+.c-ok{color:#15803d;font-weight:700}.c-at{color:#b8860b;font-weight:700}.c-cr{color:#dc2626;font-weight:700}
+.dp{color:#15803d;font-weight:600}.dn{color:#dc2626;font-weight:600}
+.bx{background:#fff;padding:18px;border-radius:8px;margin-bottom:20px;border:1px solid #e8e8e8}
+.bx h3{color:#232f3e;margin-bottom:12px;font-size:14px;border-bottom:2px solid #ff9900;padding-bottom:5px;display:inline-block}
+table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:16px}
+th{background:#232f3e;padding:7px 6px;text-align:left;font-weight:600;font-size:10px;color:#ff9900}
+td{padding:6px;border-bottom:1px solid #eee}
+tr:hover td{background:#fafafa}
+.rg td{font-weight:700;border-top:2px solid #ff9900;background:#fef9e7}
+.rp td{font-style:italic;color:#555}.rp td:first-child{padding-left:18px}
+.rt td{background:#eaeded;font-weight:700;border-top:2px solid #232f3e}
+.ins{background:#fff;padding:14px 16px;border-radius:8px;border-left:5px solid #ff9900;margin-bottom:20px}
+.ins h4{color:#ff9900;margin-bottom:5px;font-size:13px}.ins p{margin-bottom:3px;color:#37475a;font-size:12px}
+.ins-r{border-left-color:#dc2626;background:#fef2f2}
+.st{font-size:14px;color:#232f3e;margin-bottom:14px;padding-bottom:3px;border-bottom:2px solid #ff9900;display:inline-block;font-weight:700}
+.leg{display:flex;gap:14px;margin:-12px 0 20px;font-size:10px;color:#666}
+details{background:#fff;border-radius:8px;margin-bottom:10px;border:1px solid #e8e8e8;overflow:hidden}
+summary{padding:10px 14px;background:#eaeded;cursor:pointer;font-weight:600;font-size:12px;list-style:none;user-select:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▶ ";font-size:10px}
+details[open] summary::before{content:"▼ "}
+details .db{padding:14px}
+.ed{width:70px;padding:4px 6px;border:1px solid #ccc;border-radius:4px;font-size:11px;text-align:right;font-family:monospace}
+.ed:focus{border-color:#ff9900;outline:none;box-shadow:0 0 0 2px rgba(255,153,0,.2)}
+.calc{background:#f0f9ff;font-weight:700;font-family:monospace}
+.grp-hdr{background:#37475a;color:#ff9900;padding:10px 14px;border-radius:8px 8px 0 0;font-weight:700;font-size:13px;margin-top:16px}
+.grp-body{background:#fff;border:1px solid #e8e8e8;border-top:none;border-radius:0 0 8px 8px;padding:14px;margin-bottom:16px}
+.truck-row{background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:12px;margin-bottom:8px;display:grid;grid-template-columns:1fr 1fr 80px 80px 80px 80px 80px;gap:8px;align-items:center}
+.truck-hdr{background:#232f3e;color:#ff9900;border-radius:8px;padding:10px 12px;margin-bottom:8px;display:grid;grid-template-columns:1fr 1fr 80px 80px 80px 80px 80px;gap:8px;font-size:10px;font-weight:600}
+select{padding:4px 6px;border:1px solid #ccc;border-radius:4px;font-size:11px}
+select:focus{border-color:#ff9900;outline:none}
+.sparkline{margin:8px 0 4px}
+@media(max-width:1100px){.k5,.k6{grid-template-columns:repeat(3,1fr)}.k4,.k3{grid-template-columns:repeat(2,1fr)}.tabs label{padding:8px 12px;font-size:10px}}
+.update-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center}
+.update-modal.show{display:flex}
+.update-modal-box{background:#fff;border-radius:16px;padding:32px;max-width:750px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.2);position:relative;max-height:80vh;overflow-y:auto}
+.update-modal-box h3{font-size:18px;color:#1e293b;margin-bottom:8px}
+.update-modal-box p{font-size:12px;color:#64748b;margin-bottom:16px}
+.update-modal-box textarea{width:100%;height:280px;border:1px solid #e2e8f0;border-radius:8px;padding:14px;font-family:monospace;font-size:12px;color:#1e293b;resize:none;background:#f8fafc}
+.update-modal-box .btn-row{display:flex;gap:12px;margin-top:16px;justify-content:flex-end}
+.update-modal-box .btn-copy{background:#3b82f6;color:white;border:none;padding:12px 24px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer}
+.update-modal-box .btn-copy:hover{background:#2563eb}
+.update-modal-box .btn-close{background:#f1f5f9;color:#475569;border:none;padding:12px 24px;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer}
+.copy-ok{display:none;background:#dcfce7;color:#166534;padding:10px;border-radius:8px;text-align:center;margin-top:12px;font-weight:700;font-size:13px}
+</style>
+</head>
+<body>
+<input type="radio" name="tab" id="t0" checked>
+<input type="radio" name="tab" id="t1">
+<input type="radio" name="tab" id="t2">
+<input type="radio" name="tab" id="t3">
+<input type="radio" name="tab" id="t4">
+
+<!-- DATA_CONFIG - EDITE APENAS ESTE BLOCO PARA ATUALIZAR -->
+<script>
+window.DATA_CONFIG={"meta":{"periodo":"W15 a W20 / 2026","semanas":["W15","W16","W17","W18","W19","W20"],"atualizado":"15/05/2026 23:31","meta_ppp":175,"meta_recv":98.5,"meta_stow":99.5,"meta_dep":99.5,"feriados":{"W15":"Sexta-feira Santa (11/04)","W17":"Tiradentes (21/04)","W18":"Dia do Trabalhador (01/05)"}},"regional":{"DF-SUL":{"vol":[109877,99357,84196,78803,120043,122903],"ppp":[152.097,153.3049,155.3582,157.0628,167.0441,178.9212],"recv":[98.72,99.63,99.39,99.62,99.58,99.44],"stow":[99.58,99.65,99.85,99.82,99.38,98.13],"dep":[99.93,99.97,99.85,99.97,99.96,98.45]},"RIMES-NE":{"vol":[136989,140782,117361,115226,170120,165000],"ppp":[177.9,178.2,180.5,181.3,182.1,183.5],"recv":[99.02,99.52,99.52,99.49,99.63,99.40],"stow":[99.72,99.79,99.86,99.80,99.61,99.55],"dep":[99.91,99.96,99.94,99.97,99.98,99.95]},"SP CAP":{"vol":[212581,213200,185451,189612,272350,270000],"ppp":[175.8,176.2,177.5,178.1,179.3,180.5],"recv":[95.89,96.01,95.44,95.36,95.82,95.90],"stow":[99.64,99.68,99.73,99.70,99.55,99.60],"dep":[99.92,99.95,99.93,99.97,99.96,99.94]},"SP INT":{"vol":[191100,194850,151239,163120,230050,228000],"ppp":[167.5,168.2,169.8,170.5,171.2,172.5],"recv":[91.88,93.02,92.56,93.03,92.61,94.10],"stow":[99.32,99.38,99.45,99.42,99.28,99.35],"dep":[99.88,99.91,99.87,99.93,99.92,99.90]}},"node_order":["ECB8","EGO8","ESE8","ESB8","ERS8","ELO8","EMR8","EJO8","EME8","EIJ8","EUM8","EVE8","EOZ8"],"grupos":{"ECB8":{"nodes":["ECB8","EVE8"],"spc":"CGH7","color":"#0ea5e9"},"ERS8":{"nodes":["ERS8"],"spc":"CGH7","color":"#059669"},"ESB8":{"nodes":["ESB8"],"spc":"CGH7","color":"#0891b2"},"ESE8":{"nodes":["ESE8","EIJ8","EME8","EJO8","EUM8"],"spc":"CGH7","color":"#7c3aed"},"ELO8":{"nodes":["ELO8","EMR8"],"spc":"CGH7","color":"#92400e"},"EGO8":{"nodes":["EGO8"],"spc":"CGH7","color":"#ea580c"}},"nodes":{"ECB8":{"t":"SPC/AMZL","d1":false,"v":[27498,28498,29156,30217,29182,30926],"p":[269,257,266.4,280.7,272.2,283.5],"r":[99.62,99.43,99.73,99.56,99.15,99.30],"s":[99.94,99.97,99.95,99.91,99.94,98.83],"d":[99.98,100,100,100,100,99.20],"b":[42,35,28,39,41,37],"ba":[1105,1140,1168,1207,1183,1220]},"EGO8":{"t":"SPC/AMZL","d1":false,"v":[3852,4012,3925,4105,3980,4238],"p":[218.5,225.3,231.7,240.2,238.1,246.8],"r":[99.87,99.59,97.02,99.79,99.73,99.92],"s":[99.79,99.66,99.7,99.71,99.26,75.88],"d":[100,100,99.98,100,100,99.90],"b":[52,45,38,42,50,48],"ba":[178,183,191,198,201,203]},"ESE8":{"t":"SPC/AMZL","d1":false,"v":[21450,22105,22834,23542,23015,24138],"p":[185.2,190.5,193.8,196.2,197.5,199.0],"r":[99.94,99.96,99.78,99.63,100,99.97],"s":[99.57,99.53,99.87,99.95,99.62,99.98],"d":[99.98,99.98,100,100,100,100],"b":[42,38,35,32,40,38],"ba":[195,198,205,210,215,220]},"ESB8":{"t":"SPC/AMZL","d1":false,"v":[8125,8340,8512,8705,8632,8970],"p":[205.3,210.8,215.2,218.5,220.1,222.0],"r":[99.50,99.42,99.55,99.60,99.48,99.50],"s":[99.03,99.15,99.22,99.35,99.12,99.03],"d":[99.69,99.75,99.82,99.88,99.72,99.69],"b":[95,92,88,85,91,89],"ba":[425,438,450,462,470,476]},"ERS8":{"t":"SPC/AMZL","d1":false,"v":[7580,7820,7950,8105,8020,8316],"p":[188.5,192.3,195.8,198.5,200.2,203.2],"r":[98.80,98.95,99.10,99.25,99.05,98.80],"s":[99.85,99.90,99.92,99.95,99.88,99.95],"d":[100,100,100,100,100,100],"b":[95,92,88,85,91,89],"ba":[285,292,300,308,312,317]},"ELO8":{"t":"SPC/Dialogo","d1":false,"v":[11820,12105,12450,12815,13025,13411],"p":[81,71.5,70.8,69.1,81.3,80.9],"r":[99.87,99.59,97.02,99.79,99.73,99.41],"s":[99.79,99.66,99.7,99.71,99.26,99.68],"d":[100,100,99.98,100,100,99.99],"b":[28,25,22,20,24,23],"ba":[298,305,312,320,325,332]},"EMR8":{"t":"PN/Dialogo","d1":false,"v":[6250,6420,6580,6715,6850,6941],"p":[145.6,146.8,141.3,138.7,0,162.2],"r":[99.62,99.43,99.73,99.56,99.15,99.30],"s":[99.94,99.97,99.95,99.91,99.94,99.94],"d":[99.98,100,100,100,100,100],"b":[15,14,12,11,13,12],"ba":[348,355,362,370,375,382]},"EJO8":{"t":"PN/Dialogo","d1":false,"v":[3850,4020,4180,4320,4450,4547],"p":[106.6,0,114.4,108.8,115,115.3],"r":[99.77,99.93,99.98,99.95,100,99.78],"s":[99.98,100,99.96,100,99.96,100],"d":[100,100,100,100,99.98,99.95],"b":[820,818,815,812,817,815],"ba":[95,100,105,110,113,116]},"EME8":{"t":"PN/Fatelog","d1":true,"v":[6850,7105,7325,7520,7680,7825],"p":[0,0,188,0,0,213.7],"r":[99.91,99.83,99.76,99.33,99.77,99.70],"s":[99.61,99.19,99.08,99.54,99.56,99.62],"d":[86.72,86.74,53.72,82.08,88.12,79.53],"b":[1180,1175,1172,1170,1173,1171],"ba":[185,192,198,205,210,214]},"EIJ8":{"t":"PN/Rede Frete","d1":false,"v":[4850,5020,5180,5285,5380,5453],"p":[147.6,152.5,163.2,0,179.6,186.1],"r":[99.94,99.96,99.78,99.63,100,99.98],"s":[99.57,99.53,99.87,99.95,99.62,99.98],"d":[99.98,99.98,100,100,100,100],"b":[25,22,20,18,21,20],"ba":[92,97,102,107,110,114]},"EUM8":{"t":"PN/Rede Frete","d1":true,"v":[2180,2250,2320,2380,2450,2503],"p":[204.2,386.2,499.5,372.2,354.3,203.7],"r":[99.86,99.89,100,100,99.9,100],"s":[98.02,99.54,99.88,100,99.95,100],"d":[87.35,85.48,54.52,85.36,88.22,100],"b":[270,268,265,262,266,264],"ba":[118,122,128,132,136,139]},"EVE8":{"t":"PN/Rede Frete","d1":false,"v":[1720,1785,1850,1905,1960,1996],"p":[0,149.1,163.8,178.6,186.6,186.6],"r":[98.58,99.75,99.87,100,99.8,98.45],"s":[99.88,99.93,100,100,100,99.93],"d":[100,99.94,100,100,100,100],"b":[218,215,212,210,212,211],"ba":[152,158,162,168,172,174]},"EOZ8":{"t":"PN","d1":false,"v":[0,0,0,0,0,0],"p":[0,0,0,0,0,0],"r":[0,0,0,0,0,0],"s":[0,0,0,0,0,0],"d":[0,0,0,0,0,0],"b":[0,0,0,0,0,0],"ba":[0,0,0,0,0,0]}},"sim_colors":{"ECB8":"#0ea5e9","ERS8":"#059669","ESB8":"#0891b2","EME8":"#2563eb","ESE8":"#7c3aed","EUM8":"#ca8a04","EVE8":"#dc2626","EGO8":"#ea580c","EIJ8":"#db2777","EMR8":"#9333ea","EJO8":"#2563eb","ELO8":"#92400e","EOZ8":"#999"}}
+</script>
+
+<!-- FIM DATA_CONFIG -->
+
+
+<div class="hdr"><h1>FM METRICS - PPP <span id="hdr-periodo"></span></h1><div style="display:flex;align-items:center;gap:12px"><span>Amazon Logistics Brasil | Atualizado: <span id="hdr-data"></span></span><button id="btnUpdatePPP" style="background:#3b82f6;border:none;color:white;padding:8px 18px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">&#128260; Atualizar PPP</button></div></div>
+<div class="tabs"><label for="t0">Visao Geral</label><label for="t1">DF-SUL</label><label for="t2">Simulador</label><label for="t3">VSM</label><label for="t4">Truck Utilization</label></div>
+<div class="cnt">
+<div class="pn" id="p0"></div>
+<div class="pn" id="p1"></div>
+<div class="pn" id="p2">
+<div class="st">Simulador Interativo - Combine Nodes e Veja o Impacto</div>
+<div class="ins">
+<h4>Como funciona</h4>
+<p><strong>Marque/desmarque</strong> os nodes para recalcular PPP Real. Com todos marcados = valor identico ao regional.</p>
+<p><strong>PPP Real =</strong> Soma(Vol) / Soma(Vol/PPP) dos nodes selecionados com PPP&gt;0 | <strong>Meta:</strong> &ge;175 OK | 165-174 ATENCAO | &lt;165 CRITICO</p>
+</div>
+<div class="kg k6">
+<div class="kc"><div class="kl">Nodes Selecionados</div><div class="kv" id="kSel">0</div><span class="bg bg-na" id="kSelTag">de 12</span></div>
+<div class="kc"><div class="kl">PPP Real W20</div><div class="kv" id="kReal">-</div><span id="kRealTag" class="bg bg-na">-</span></div>
+<div class="kc"><div class="kl">Volume Selecao W20</div><div class="kv" style="font-size:18px" id="kVol">0</div><span class="bg bg-na" id="kVolPct">0%</span></div>
+<div class="kc"><div class="kl">PPP Real Dashboard W20</div><div class="kv c-ok" id="kRegional">179</div><span class="bg bg-ok">Referencia</span></div>
+<div class="kc"><div class="kl">Gap Real vs Meta</div><div class="kv" id="kGap">-</div><span id="kGapTag" class="bg bg-na">-</span></div>
+</div>
+<div id="nodeGrid" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px"></div>
+<div class="bx"><h3>Evolucao PPP - Selecao</h3>
+<p style="font-size:10px;color:#666;margin-bottom:8px" id="chartDesc">Selecione nodes</p>
+<svg id="simChart" width="100%" viewBox="0 0 1000 340"></svg></div>
+<div class="bx"><h3>Resultado por Semana</h3>
+<table><thead><tr><th>Semana</th><th>Vol Sel.</th><th>Vol Reg.</th><th>%</th><th>PPP Real</th><th>Status</th></tr></thead>
+<tbody id="simTable"></tbody></table></div>
+<div class="bx"><h3>Ranking de Impacto (Gap x Volume)</h3>
+<table><thead><tr><th>#</th><th>Node</th><th>PPP</th><th>Gap vs 175</th><th>Vol</th><th>Share</th><th>Score</th><th>Prioridade</th></tr></thead>
+<tbody id="rankTable"></tbody></table></div>
+</div>
+<script>
+(function(){
+var D=window.DATA_CONFIG,N=[],simOrder=D.node_order,META=D.meta.meta_ppp,WK=D.meta.semanas,XP=[130,280,430,580,730,880],NW=WK.length,LW=NW-1;
+for(var si=0;si<simOrder.length;si++){var sn=simOrder[si];var nd=D.nodes[sn];N.push({i:si,n:sn,v:nd.v,p:nd.p,c:D.sim_colors[sn]})}
+var REG_VOL=D.regional["DF-SUL"].vol,REG_PPP=D.regional["DF-SUL"].ppp;
+var grid=document.getElementById("nodeGrid");
+for(var i=0;i<N.length;i++){(function(nd,idx){
+var lbl=document.createElement("label");
+lbl.style.cssText="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:2px solid "+nd.c+";border-radius:20px;cursor:pointer;font-size:11px;font-weight:600;user-select:none;background:#fff";
+var cb=document.createElement("input");cb.type="checkbox";cb.checked=true;cb.id="sim_"+idx;cb.style.accentColor=nd.c;
+cb.addEventListener("change",recalc);
+var sp=document.createElement("span");sp.style.color=nd.c;sp.textContent=nd.n+" ("+Math.round(nd.p[LW])+")";
+lbl.appendChild(cb);lbl.appendChild(sp);grid.appendChild(lbl);
+})(N[i],i)}
+function stat(v){return v>=META?"OK":v>=165?"ATENCAO":"CRITICO"}
+function sCls(v){return v>=META?"bg-ok":v>=165?"bg-at":"bg-cr"}
+function vCls(v){return v>=META?"c-ok":v>=165?"c-at":"c-cr"}
+function fmt(n){return n.toLocaleString("pt-BR")}
+function yC(v){var mn=60,mx=280;v=Math.min(Math.max(v,mn),mx);return(280-(v-mn)*(260/(mx-mn))).toFixed(1)}
+function recalc(){
+var sel=[];for(var j=0;j<N.length;j++){if(document.getElementById("sim_"+j).checked)sel.push(N[j])}
+if(sel.length===0){document.getElementById("kSel").textContent="0";document.getElementById("kReal").textContent="-";document.getElementById("kVol").textContent="0";document.getElementById("kGap").textContent="-";document.getElementById("simTable").innerHTML="<tr><td colspan=6 style=text-align:center;padding:20px>Selecione nodes</td></tr>";document.getElementById("simChart").innerHTML="";return}
+var realArr=[],volArr=[];
+for(var w=0;w<NW;w++){
+var regVol=REG_VOL[w],regPPP=REG_PPP[w];
+var totalPal=regPPP>0?regVol/regPPP:0;
+var knownPal=0;
+for(var j=0;j<N.length;j++){if(N[j].p[w]>0){knownPal+=N[j].v[w]/N[j].p[w]}}
+var residualPal=totalPal-knownPal;
+var selVol=0,selPal=0,allNodeVol=0;
+for(var j=0;j<N.length;j++)allNodeVol+=N[j].v[w];
+for(var j=0;j<sel.length;j++){var nd=sel[j];selVol+=nd.v[w];if(nd.p[w]>0){selPal+=nd.v[w]/nd.p[w]}}
+if(residualPal>0&&allNodeVol>0)selPal+=residualPal*(selVol/allNodeVol)
+realArr.push(selPal>0?Math.round(selVol/selPal):0);
+volArr.push(selVol)}
+var allSel=(sel.length===N.length);
+if(allSel){for(var w=0;w<NW;w++)realArr[w]=Math.round(REG_PPP[w])}
+var r18=realArr[LW],v18=volArr[LW],gap=r18-META;
+document.getElementById("kSel").textContent=sel.length;document.getElementById("kSelTag").textContent="de "+N.length;
+document.getElementById("kReal").textContent=r18;document.getElementById("kReal").className="kv "+vCls(r18);
+document.getElementById("kRealTag").textContent=stat(r18);document.getElementById("kRealTag").className="bg "+sCls(r18);
+document.getElementById("kVol").textContent=fmt(v18);document.getElementById("kVolPct").textContent=Math.round(v18/REG_VOL[LW]*100)+"%";
+document.getElementById("kRegional").textContent=Math.round(REG_PPP[LW]);
+document.getElementById("kGap").textContent=(gap>=0?"+":"")+gap;document.getElementById("kGap").className="kv "+(gap>=0?"c-ok":"c-cr");
+document.getElementById("kGapTag").textContent=gap>=0?"ACIMA":"ABAIXO";document.getElementById("kGapTag").className="bg "+(gap>=0?"bg-ok":"bg-cr");
+document.getElementById("chartDesc").textContent=sel.length+" nodes | "+sel.map(function(n){return n.n}).join(", ");
+var html="";for(w=0;w<NW;w++){html+="<tr><td><strong>"+WK[w]+"</strong></td><td>"+fmt(volArr[w])+"</td><td>"+fmt(REG_VOL[w])+"</td><td>"+Math.round(volArr[w]/REG_VOL[w]*100)+"%</td><td class=\""+vCls(realArr[w])+"\"><strong>"+realArr[w]+"</strong></td><td><span class=\"bg "+sCls(realArr[w])+"\">"+stat(realArr[w])+"</span></td></tr>"}
+document.getElementById("simTable").innerHTML=html;
+var svg=document.getElementById("simChart"),s="";
+s+="<line x1=\"80\" y1=\"280\" x2=\"900\" y2=\"280\" stroke=\"#ccc\"/><line x1=\"80\" y1=\"20\" x2=\"80\" y2=\"280\" stroke=\"#ccc\"/>";
+var gi,yL=[80,120,160,175,200,240];for(gi=0;gi<yL.length;gi++){s+="<text x=\"70\" y=\""+(+yC(yL[gi])+4)+"\" fill=\"#666\" text-anchor=\"end\" font-size=\"10\">"+yL[gi]+"</text>"}
+s+="<line x1=\"80\" y1=\""+yC(META)+"\" x2=\"900\" y2=\""+yC(META)+"\" stroke=\"#ff9900\" stroke-width=\"2\" stroke-dasharray=\"7,4\"/><text x=\"908\" y=\""+(+yC(META)+4)+"\" fill=\"#ff9900\" font-size=\"10\" font-weight=\"700\">Meta "+META+"</text>";
+for(gi=0;gi<NW;gi++){s+="<text x=\""+XP[gi]+"\" y=\"296\" fill=\"#37475a\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"600\">"+WK[gi]+"</text>"}
+var pl="";for(gi=0;gi<NW;gi++){pl+=XP[gi]+","+yC(realArr[gi])+" "}
+s+="<polyline points=\""+pl.trim()+"\" fill=\"none\" stroke=\"#15803d\" stroke-width=\"3\"/>";
+for(gi=0;gi<NW;gi++){s+="<circle cx=\""+XP[gi]+"\" cy=\""+yC(realArr[gi])+"\" r=\"5\" fill=\"#15803d\"/><text x=\""+XP[gi]+"\" y=\""+(+yC(realArr[gi])-10)+"\" fill=\"#15803d\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"700\">"+realArr[gi]+"</text>"}
+s+="<text x=\"160\" y=\"328\" fill=\"#15803d\" font-size=\"9\" font-weight=\"700\">— PPP Real (selecao)</text><text x=\"680\" y=\"328\" fill=\"#ff9900\" font-size=\"9\" font-weight=\"700\">-- Meta 175</text>";
+svg.innerHTML=s}
+var rankData=[],totalVol2=0;
+D.node_order.forEach(function(nd){var n=D.nodes[nd],p=Math.round(n.p[LW]),v=n.v[LW];totalVol2+=v;if(p>0&&p<META){rankData.push({n:nd,p:p,g:p-META,v:v,sc:Math.abs(p-META)*v})}});
+rankData.sort(function(a,b){return b.sc-a.sc});
+var rH="";rankData.forEach(function(r,i){var pr=r.sc>200000?"URGENTE":r.sc>100000?"ALTO":r.sc>30000?"MEDIO":"BAIXO";var pc=r.sc>200000?"bg-cr":r.sc>100000?"bg-at":"bg-na";rH+="<tr><td>"+(i+1)+"</td><td><strong>"+r.n+"</strong></td><td class=\"c-cr\">"+r.p+"</td><td class=\"dn\">"+r.g+"</td><td>"+fmt(r.v)+"</td><td>"+Math.round(r.v/totalVol2*1000)/10+"%</td><td>"+fmt(r.sc)+"</td><td><span class=\"bg "+pc+"\">"+pr+"</span></td></tr>"});
+document.getElementById("rankTable").innerHTML=rH;
+recalc()})();
+</script>
+
+<div class="pn" id="p3">
+<div class="st">VSM - Lanes para CGH7 por SPC</div>
+<div class="ins">
+<h4>Value Stream Mapping - Lanes CGH7</h4>
+<p>Cada SPC tem uma lane para <strong>CGH7</strong> com 4 destinos. Digite <strong>Pacotes</strong> e <strong>Paletes</strong> para calcular o PPP.</p>
+<p><strong>PPP =</strong> Pacotes / Paletes | <strong>Meta:</strong> &ge;175 OK | 165-174 ATENCAO | &lt;165 CRITICO</p>
+</div>
+<div class="kg k4">
+<div class="kc"><div class="kl">PPP Real Total</div><div class="kv" id="vsmReal">-</div><span id="vsmRealTag" class="bg bg-na">PREENCHER</span></div>
+<div class="kc"><div class="kl">PPP Regional Total</div><div class="kv" id="vsmPond">-</div><span id="vsmPondTag" class="bg bg-na">PREENCHER</span></div>
+<div class="kc"><div class="kl">Total Pacotes</div><div class="kv" style="font-size:18px" id="vsmPkgs">0</div><span class="bg bg-na">todas SPCs</span></div>
+<div class="kc"><div class="kl">Total Paletes</div><div class="kv" style="font-size:18px" id="vsmPals">0</div><span class="bg bg-na">todas SPCs</span></div>
+</div>
+<div id="vsmContainer"></div>
+</div>
+<script>
+(function(){
+var SPCS=["ECB8","ESE8","ESB8","ERS8","EGO8","ELO8"],DESTS=["CGH7","GIG7","REC9","TBAV"];
+var COLORS={"ECB8":"#0ea5e9","ESE8":"#7c3aed","ESB8":"#0891b2","ERS8":"#059669","EGO8":"#ea580c","ELO8":"#92400e"};
+var D=window.DATA_CONFIG,META=D.meta.meta_ppp,LW=D.meta.semanas.length-1;
+var container=document.getElementById("vsmContainer");
+SPCS.forEach(function(spc){
+var pp=D.nodes[spc].p,pw=0;for(var vw=pp.length-1;vw>=0;vw--)if(pp[vw]>0){pw=Math.round(pp[vw]);break}
+var stCls=pw>=META?"bg-ok":pw>=165?"bg-at":"bg-cr";
+var div=document.createElement("div");
+div.innerHTML='<div class="grp-hdr" style="border-left:4px solid '+COLORS[spc]+'">'+spc+' > CGH7 <span class="bg '+stCls+'">PPP Ref: '+pw+'</span><span style="float:right;color:#fff;font-size:11px">PPP: <strong id="spc_r_'+spc+'">-</strong></span></div><div class="grp-body"><table><thead><tr><th>Destino</th><th>Pacotes</th><th>Paletes</th><th>PPP</th><th>Status</th></tr></thead><tbody id="vsm_b_'+spc+'"></tbody><tfoot><tr class="rt"><td><strong>TOTAL</strong></td><td class="calc" id="vsm_tp_'+spc+'">0</td><td class="calc" id="vsm_tl_'+spc+'">0</td><td class="calc" id="vsm_pp_'+spc+'">-</td><td id="vsm_ts_'+spc+'"><span class="bg bg-na">-</span></td></tr></tfoot></table></div>';
+container.appendChild(div);
+var tbody=document.getElementById("vsm_b_"+spc);
+DESTS.forEach(function(dest){var tr=document.createElement("tr");tr.innerHTML='<td><strong>'+dest+'</strong></td><td><input type="number" class="ed vp" data-s="'+spc+'" min="0" placeholder="0"></td><td><input type="number" class="ed vl" data-s="'+spc+'" min="0" placeholder="0"></td><td class="calc" id="vp_'+spc+'_'+dest+'">-</td><td id="vs_'+spc+'_'+dest+'"><span class="bg bg-na">-</span></td>';tbody.appendChild(tr)})});
+function st(v){return v>=META?"OK":v>=165?"ATENCAO":"CRITICO"}
+function sc(v){return v>=META?"bg-ok":v>=165?"bg-at":"bg-cr"}
+function vc(v){return v>=META?"c-ok":v>=165?"c-at":"c-cr"}
+function calc(){
+var tP=0,tL=0,tW=0;
+SPCS.forEach(function(spc){var sP=0,sL=0,sW=0;
+var pkgs=document.querySelectorAll('.vp[data-s="'+spc+'"]'),pals=document.querySelectorAll('.vl[data-s="'+spc+'"]');
+DESTS.forEach(function(dest,di){
+var pkg=parseInt(pkgs[di].value)||0,pal=parseInt(pals[di].value)||0;
+var ppp=pal>0?Math.round(pkg/pal):0;
+var pEl=document.getElementById("vp_"+spc+"_"+dest),sEl=document.getElementById("vs_"+spc+"_"+dest);
+if(pal>0){pEl.textContent=ppp;pEl.className="calc "+vc(ppp);sEl.innerHTML='<span class="bg '+sc(ppp)+'">'+st(ppp)+'</span>'}
+else{pEl.textContent="-";pEl.className="calc";sEl.innerHTML='<span class="bg bg-na">-</span>'}
+sP+=pkg;sL+=pal;if(pal>0)sW+=ppp*pkg});
+var sR=sL>0?Math.round(sP/sL):0;
+document.getElementById("vsm_tp_"+spc).textContent=sP.toLocaleString("pt-BR");
+document.getElementById("vsm_tl_"+spc).textContent=sL.toLocaleString("pt-BR");
+document.getElementById("vsm_pp_"+spc).textContent=sL>0?sR:"-";
+document.getElementById("vsm_ts_"+spc).innerHTML=sL>0?'<span class="bg '+sc(sR)+'">'+st(sR)+'</span>':'<span class="bg bg-na">-</span>';
+document.getElementById("spc_r_"+spc).textContent=sL>0?sR:"-";
+tP+=sP;tL+=sL;tW+=sW});
+var gR=tL>0?Math.round(tP/tL):0,gP=tP>0?Math.round(tW/tP):0;
+document.getElementById("vsmReal").textContent=tL>0?gR:"-";document.getElementById("vsmReal").className="kv "+(tL>0?vc(gR):"");
+document.getElementById("vsmRealTag").textContent=tL>0?st(gR):"PREENCHER";document.getElementById("vsmRealTag").className="bg "+(tL>0?sc(gR):"bg-na");
+document.getElementById("vsmPond").textContent=tP>0?gP:"-";document.getElementById("vsmPond").className="kv "+(tP>0?vc(gP):"");
+document.getElementById("vsmPondTag").textContent=tP>0?st(gP):"PREENCHER";document.getElementById("vsmPondTag").className="bg "+(tP>0?sc(gP):"bg-na");
+document.getElementById("vsmPkgs").textContent=tP.toLocaleString("pt-BR");
+document.getElementById("vsmPals").textContent=tL.toLocaleString("pt-BR")}
+document.querySelectorAll(".vp,.vl").forEach(function(el){el.addEventListener("input",calc)})})();
+</script>
+
+
+
+<div class="pn" id="p4">
+<div class="st">Truck Utilization - Ocupacao por Veiculo (VRID)</div>
+<div class="ins">
+<h4>Como usar</h4>
+<p><strong>1.</strong> Clique em "+ Adicionar Veiculo". <strong>2.</strong> Preencha VRID e selecione tipo (capacidade auto). <strong>3.</strong> Informe Paletes e Pacotes - PPP e % Ocupacao sao calculados.</p>
+<p><strong>Meta Ocupacao:</strong> &ge;85% OK | 70-84% ATENCAO | &lt;70% CRITICO | <strong>Meta PPP:</strong> &ge;175 OK | 165-174 ATENCAO | &lt;165 CRITICO</p>
+</div>
+<div class="kg k6">
+<div class="kc"><div class="kl">Total Veiculos</div><div class="kv" id="trVeic">0</div><span class="bg bg-na">registrados</span></div>
+<div class="kc"><div class="kl">Total Pacotes</div><div class="kv" style="font-size:18px" id="trPkgs">0</div><span class="bg bg-na">todos</span></div>
+<div class="kc"><div class="kl">Total Paletes</div><div class="kv" style="font-size:18px" id="trPals">0</div><span class="bg bg-na">utilizados</span></div>
+<div class="kc"><div class="kl">PPP Medio</div><div class="kv" id="trPPP">-</div><span id="trPPPTag" class="bg bg-na">-</span></div>
+<div class="kc"><div class="kl">Ocupacao Media</div><div class="kv" id="trOcup">-</div><span id="trOcupTag" class="bg bg-na">-</span></div>
+<div class="kc"><div class="kl">Capacidade Total</div><div class="kv" style="font-size:18px" id="trCap">0</div><span class="bg bg-na">posicoes</span></div>
+</div>
+<div class="bx">
+<h3>Capacidade Padrao por Tipo</h3>
+<div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px">
+<label style="font-size:11px;font-weight:600">Carreta: <input type="number" class="ed cap-cfg" id="cap_carreta" value="28" min="1" style="width:50px"> pos.</label>
+<label style="font-size:11px;font-weight:600">Truck: <input type="number" class="ed cap-cfg" id="cap_truck" value="14" min="1" style="width:50px"> pos.</label>
+<label style="font-size:11px;font-weight:600">VUC: <input type="number" class="ed cap-cfg" id="cap_vuc" value="8" min="1" style="width:50px"> pos.</label>
+<label style="font-size:11px;font-weight:600">Fiorino: <input type="number" class="ed cap-cfg" id="cap_fiorino" value="4" min="1" style="width:50px"> pos.</label>
+</div></div>
+<div class="truck-hdr"><span>VRID</span><span>Tipo</span><span>Capac.</span><span>Paletes</span><span>Pacotes</span><span>PPP</span><span>%Ocup.</span></div>
+<div id="truckRows"></div>
+<div style="margin-top:12px;display:flex;gap:10px">
+<button onclick="addV()" style="background:#ff9900;color:#fff;border:none;padding:8px 16px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12px">+ Adicionar Veiculo</button>
+<button onclick="clrV()" style="background:#eaeded;color:#666;border:1px solid #ccc;padding:8px 16px;border-radius:6px;font-weight:600;cursor:pointer;font-size:12px">Limpar Tudo</button>
+<button onclick="add5()" style="background:#37475a;color:#fff;border:none;padding:8px 16px;border-radius:6px;font-weight:600;cursor:pointer;font-size:12px">+ Adicionar 5</button>
+</div></div>
+<script>
+(function(){
+var rc=0,META=175;
+function gC(t){var c={carreta:parseInt(document.getElementById("cap_carreta").value)||28,truck:parseInt(document.getElementById("cap_truck").value)||14,vuc:parseInt(document.getElementById("cap_vuc").value)||8,fiorino:parseInt(document.getElementById("cap_fiorino").value)||4};return c[t]||14}
+window.addV=function(){rc++;var d=document.createElement("div");d.className="truck-row";d.id="tr_"+rc;d.innerHTML='<input type="text" class="ed" placeholder="VRID-'+rc+'" style="width:100%"><select class="tr-tp" onchange="tpC(this,'+rc+')"><option value="carreta">Carreta</option><option value="truck" selected>Truck</option><option value="vuc">VUC</option><option value="fiorino">Fiorino</option></select><input type="number" class="ed tr-cp" id="cp_'+rc+'" value="'+gC("truck")+'" min="1" onchange="trC()"><input type="number" class="ed tr-pl" id="pl_'+rc+'" min="0" placeholder="0" onchange="trC()"><input type="number" class="ed tr-pk" id="pk_'+rc+'" min="0" placeholder="0" onchange="trC()"><span class="calc" id="pp_'+rc+'">-</span><span class="calc" id="oc_'+rc+'">-</span>';document.getElementById("truckRows").appendChild(d);trC()};
+window.tpC=function(s,id){document.getElementById("cp_"+id).value=gC(s.value);trC()};
+window.clrV=function(){document.getElementById("truckRows").innerHTML="";rc=0;trC()};
+window.add5=function(){for(var i=0;i<5;i++)addV()};
+window.trC=function(){
+var rows=document.querySelectorAll(".truck-row"),tP=0,tL=0,tC=0,cnt=0;
+rows.forEach(function(row){var id=row.id.split("_")[1];var cap=parseInt(document.getElementById("cp_"+id).value)||0;var pal=parseInt(document.getElementById("pl_"+id).value)||0;var pkg=parseInt(document.getElementById("pk_"+id).value)||0;var ppE=document.getElementById("pp_"+id),ocE=document.getElementById("oc_"+id);
+if(pal>0&&pkg>0){var ppp=Math.round(pkg/pal);ppE.textContent=ppp;ppE.className="calc "+(ppp>=META?"c-ok":ppp>=165?"c-at":"c-cr")}else{ppE.textContent="-";ppE.className="calc"}
+if(cap>0&&pal>0){var ocp=Math.round(pal/cap*100);ocE.textContent=ocp+"%";ocE.className="calc "+(ocp>=85?"c-ok":ocp>=70?"c-at":"c-cr")}else{ocE.textContent="-";ocE.className="calc"}
+tP+=pkg;tL+=pal;tC+=cap;cnt++});
+document.getElementById("trVeic").textContent=cnt;
+document.getElementById("trPkgs").textContent=tP.toLocaleString("pt-BR");
+document.getElementById("trPals").textContent=tL.toLocaleString("pt-BR");
+document.getElementById("trCap").textContent=tC.toLocaleString("pt-BR");
+if(tL>0&&tP>0){var g=Math.round(tP/tL);document.getElementById("trPPP").textContent=g;document.getElementById("trPPP").className="kv "+(g>=META?"c-ok":g>=165?"c-at":"c-cr");document.getElementById("trPPPTag").textContent=g>=META?"OK":g>=165?"ATENCAO":"CRITICO";document.getElementById("trPPPTag").className="bg "+(g>=META?"bg-ok":g>=165?"bg-at":"bg-cr")}else{document.getElementById("trPPP").textContent="-";document.getElementById("trPPPTag").textContent="-";document.getElementById("trPPPTag").className="bg bg-na"}
+if(tC>0&&tL>0){var o=Math.round(tL/tC*100);document.getElementById("trOcup").textContent=o+"%";document.getElementById("trOcup").className="kv "+(o>=85?"c-ok":o>=70?"c-at":"c-cr");document.getElementById("trOcupTag").textContent=o>=85?"OK":o>=70?"ATENCAO":"CRITICO";document.getElementById("trOcupTag").className="bg "+(o>=85?"bg-ok":o>=70?"bg-at":"bg-cr")}else{document.getElementById("trOcup").textContent="-";document.getElementById("trOcupTag").textContent="-";document.getElementById("trOcupTag").className="bg bg-na"}};
+document.querySelectorAll(".cap-cfg").forEach(function(el){el.addEventListener("change",function(){document.querySelectorAll(".truck-row").forEach(function(r){var id=r.id.split("_")[1];var tp=r.querySelector(".tr-tp").value;document.getElementById("cp_"+id).value=gC(tp)});trC()})})})();
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+var D=window.DATA_CONFIG,M=D.meta,WK=M.semanas,NW=WK.length,LW=NW-1,META=M.meta_ppp;
+document.getElementById("hdr-periodo").textContent=M.periodo;
+document.getElementById("hdr-data").textContent=M.atualizado;
+function fmt(n){return n.toLocaleString("pt-BR")}
+function pC(p){return p>=META?"c-ok":p>=165?"c-at":"c-cr"}
+function pB(p){if(p===0)return'<span class="bg bg-na">OFENSOR</span>';return p>=META?'<span class="bg bg-ok">OK</span>':p>=165?'<span class="bg bg-at">ATENCAO</span>':'<span class="bg bg-cr">CRITICO</span>'}
+function sB(p){return p>=META?"bg-ok":p>=165?"bg-at":"bg-cr"}
+function lV(a){for(var i=a.length-1;i>=0;i--)if(a[i]>0)return Math.round(a[i]);return 0}
+function fV(a){for(var i=0;i<a.length;i++)if(a[i]>0)return Math.round(a[i]);return 0}
+function spark(arr,color,nd){var w2=420,h2=130,padL=42,padR=20,padT=28,padB=28;var vals=arr.map(function(v){return Math.round(v)});var pos=vals.filter(function(v){return v>0});var mn=pos.length>0?Math.min.apply(null,pos):0;var mx=Math.max.apply(null,vals);if(mn>META-30)mn=META-30;if(mx<META+30)mx=META+30;if(mx<=mn)mx=mn+50;var chartW=w2-padL-padR,chartH=h2-padT-padB;var sx=chartW/(NW-1);function yP(v){return v>0?padT+(mx-v)*(chartH/(mx-mn)):padT+chartH}var s='<svg class="sparkline" width="'+w2+'" height="'+h2+'" viewBox="0 0 '+w2+' '+h2+'">';s+='<rect x="0" y="0" width="'+w2+'" height="'+h2+'" fill="#fafafa" rx="6" stroke="#e8e8e8" stroke-width="1"/>';for(var k=0;k<NW;k++){var xk=padL+k*sx;s+='<line x1="'+xk+'" y1="'+padT+'" x2="'+xk+'" y2="'+(h2-padB)+'" stroke="#eee" stroke-width="1"/>'}var metaY=yP(META);s+='<line x1="'+padL+'" y1="'+metaY+'" x2="'+(w2-padR)+'" y2="'+metaY+'" stroke="#ff9900" stroke-width="2" stroke-dasharray="6,3"/>';s+='<text x="'+(padL-4)+'" y="'+(metaY+4)+'" fill="#ff9900" text-anchor="end" font-size="9" font-weight="700">'+META+'</text>';for(var k=0;k<NW;k++){var xk=padL+k*sx;s+='<text x="'+xk+'" y="'+(h2-padB+15)+'" fill="#666" text-anchor="middle" font-size="9" font-weight="600">'+WK[k]+'</text>'}var pts=[];for(var k=0;k<NW;k++){pts.push((padL+k*sx)+","+yP(vals[k]))}s+='<polyline points="'+pts.join(" ")+'" fill="none" stroke="'+color+'" stroke-width="2.5" stroke-linejoin="round"/>';for(var k=0;k<NW;k++){var xk=padL+k*sx;var yk=yP(vals[k]);var dc=vals[k]>=META?"#15803d":vals[k]>0?"#dc2626":"#999";s+='<circle cx="'+xk+'" cy="'+yk+'" r="5" fill="'+dc+'" stroke="#fff" stroke-width="2"/>';s+='<text x="'+xk+'" y="'+(yk-10)+'" fill="'+dc+'" text-anchor="middle" font-size="10" font-weight="700">'+(vals[k]>0?vals[k]:"0")+'</text>'}s+='<text x="'+(padL+2)+'" y="16" fill="#37475a" font-size="10" font-weight="700">'+nd+'</text>';s+='<text x="'+(w2-padR)+'" y="16" fill="#666" text-anchor="end" font-size="9">Meta: '+META+'</text>';s+='</svg>';return s}
+var rN=["DF-SUL","RIMES-NE","SP CAP","SP INT"],rc={"DF-SUL":"#dc2626","RIMES-NE":"#15803d","SP CAP":"#1a6fa0","SP INT":"#7d3c98"};
+var gW18=Math.round(D.regional["DF-SUL"].ppp[LW]),dPPP=D.regional["DF-SUL"].ppp,dVOL=D.regional["DF-SUL"].vol;
+var tV=0;rN.forEach(function(r){tV+=D.regional[r].vol[LW]});
+var dV=dVOL[LW],sh=Math.round(dV/tV*1000)/10;
+var dD=Math.round(dPPP[LW]-dPPP[0]);
+function cP(wi){var sv2=0,sp2=0;D.node_order.forEach(function(nd){var n=D.nodes[nd],p=n.p[wi],v=n.v[wi];if(p>0){sp2+=p*v;sv2+=v}});return sv2?Math.round(sp2/sv2):0}
+var pond=[];for(var w=0;w<NW;w++)pond.push(cP(w));
+var nOK=0,nCR=0,okL=[],crL=[];
+D.node_order.forEach(function(nd){var lp=lV(D.nodes[nd].p);if(lp>=META){nOK++;okL.push(nd+"("+lp+")")}else if(lp>0&&lp<165){nCR++;crL.push(nd+"("+lp+")")}});
+var h='<div class="st">Visao Geral - PPP por Regional '+M.periodo+'</div><div class="kg k5">';
+h+='<div class="kc"><div class="kl">PPP DF-SUL '+WK[LW]+'</div><div class="kv '+pC(gW18)+'">'+gW18+'</div>'+pB(gW18)+'</div>';
+rN.forEach(function(r){var p=Math.round(D.regional[r].ppp[LW]);h+='<div class="kc"><div class="kl">'+r+'</div><div class="kv '+pC(p)+'">'+p+'</div>'+pB(p)+'</div>'});
+h+='</div><div class="bx"><h3>PPP por Regional</h3><table><thead><tr><th>Regional</th>';
+for(w=0;w<NW;w++)h+='<th>'+WK[w]+'</th>';h+='<th>D</th><th>Status</th></tr></thead><tbody>';
+rN.forEach(function(r){var rd=D.regional[r],dl=Math.round(rd.ppp[LW]-rd.ppp[0]);h+='<tr><td><strong>'+r+'</strong></td>';for(w=0;w<NW;w++)h+='<td class="'+pC(Math.round(rd.ppp[w]))+'">'+Math.round(rd.ppp[w])+'</td>';h+='<td class="'+(dl>=0?"dp":"dn")+'">'+(dl>=0?"+":"")+dl+'</td><td>'+pB(Math.round(rd.ppp[LW]))+'</td></tr>'});
+h+='</tbody></table></div>';
+var xs=[130,280,430,580,730,880];
+function pY(p){return Math.round(260-((p-120)/130)*240)}
+h+='<div class="bx"><h3>PPP Real - Evolucao Regional</h3><svg width="100%" viewBox="0 0 1000 300">';
+h+='<line x1="80" y1="260" x2="900" y2="260" stroke="#ccc"/><line x1="80" y1="20" x2="80" y2="260" stroke="#ccc"/>';
+var yl=[120,150,175,200,230];yl.forEach(function(v){h+='<text x="70" y="'+(pY(v)+4)+'" fill="#666" text-anchor="end" font-size="10">'+v+'</text>'});
+h+='<line x1="80" y1="'+pY(META)+'" x2="900" y2="'+pY(META)+'" stroke="#ff9900" stroke-width="2" stroke-dasharray="7,4"/><text x="908" y="'+(pY(META)+4)+'" fill="#ff9900" font-size="10" font-weight="700">Meta 175</text>';
+for(w=0;w<NW;w++)h+='<text x="'+xs[w]+'" y="280" fill="#37475a" text-anchor="middle" font-size="11" font-weight="600">'+WK[w]+'</text>';
+rN.forEach(function(r){var rd=D.regional[r],col=rc[r],pts=[];for(w=0;w<NW;w++)pts.push(xs[w]+","+pY(Math.round(rd.ppp[w])));h+='<polyline points="'+pts.join(" ")+'" fill="none" stroke="'+col+'" stroke-width="2.5"/>';for(w=0;w<NW;w++){h+='<circle cx="'+xs[w]+'" cy="'+pY(Math.round(rd.ppp[w]))+'" r="4" fill="'+col+'"/>';h+='<text x="'+xs[w]+'" y="'+(pY(Math.round(rd.ppp[w]))+(r==="DF-SUL"?14:-8))+'" fill="'+col+'" text-anchor="middle" font-size="9" font-weight="700">'+Math.round(rd.ppp[w])+'</text>'}});
+h+='<text x="160" y="295" fill="#666" font-size="9" font-weight="600">Verde=Real Regional | Laranja=Meta 175</text>';
+h+='</svg></div>';
+h+='<div class="ins"><h4>Principais Conclusoes</h4>';
+h+='<p><strong>DF-SUL</strong> tendencia de alta: +'+dD+' pts (W15 a W20). PPP W20 = '+Math.round(dPPP[LW])+'.</p>';
+h+='<p><strong>SP INT</strong> responde por '+Math.round(D.regional["SP INT"].vol[LW]/tV*100)+'% do volume em ATENCAO ('+Math.round(D.regional["SP INT"].ppp[LW])+').</p>';
+if(M.feriados&&M.feriados[WK[LW]])h+='<p><strong>'+WK[LW]+':</strong> '+M.feriados[WK[LW]]+' - volumes reduzidos.</p>';
+h+='</div>';
+document.getElementById("p0").innerHTML=h;
+var p1='<div class="st">Detalhamento DF-SUL - '+D.node_order.length+' Nodes</div>';
+var eoz=D.nodes["EOZ8"];
+p1+='<div class="ins ins-r"><h4>EOZ8 - Node Ofensor</h4>';
+p1+='<p><strong>PPP = 0</strong> em todas semanas. Node excluido dos calculos.</p></div>';
+p1+='<div class="kg k6">';
+p1+='<div class="kc"><div class="kl">PPP Real '+WK[LW]+'</div><div class="kv '+pC(Math.round(dPPP[LW]))+'">'+Math.round(dPPP[LW])+'</div>'+pB(Math.round(dPPP[LW]))+'</div>';
+p1+='<div class="kc"><div class="kl">Vol '+WK[LW]+'</div><div class="kv" style="font-size:18px">'+fmt(dV)+'</div><span class="bg bg-na">'+sh+'% share</span></div>';
+p1+='<div class="kc"><div class="kl">Nodes OK</div><div class="kv c-ok">'+nOK+'</div><span class="bg bg-ok">PPP>=175</span></div>';
+p1+='<div class="kc"><div class="kl">Nodes CRITICO</div><div class="kv c-cr">'+nCR+'</div><span class="bg bg-cr">PPP<165</span></div>';
+p1+='<div class="kc"><div class="kl">D W15 a '+WK[LW]+'</div><div class="kv '+(dD>=0?"c-ok":"c-cr")+'">'+(dD>=0?"+":"")+dD+'</div><span class="bg '+(dD>=0?"bg-ok":"bg-cr")+'">'+(dD>=0?"SUBINDO":"CAINDO")+'</span></div></div>';
+p1+='<div class="kg k5" style="margin-top:-8px">';
+var rv=D.regional["DF-SUL"].recv,swR=D.regional["DF-SUL"].stow,dpR=D.regional["DF-SUL"].dep;
+var rvW=rv[LW],swW=swR[LW],dpW=dpR[LW];
+var rvS=rvW>=98.5?"c-ok":"c-cr",swS=swW>=99.5?"c-ok":"c-cr",dpS=dpW>=99.5?"c-ok":"c-cr";
+var rvB=rvW>=98.5?"bg-ok":"bg-cr",swB=swW>=99.5?"bg-ok":"bg-cr",dpB=dpW>=99.5?"bg-ok":"bg-cr";
+p1+='<div class="kc"><div class="kl">Receive '+WK[LW]+'</div><div class="kv '+rvS+'">'+rvW+'%</div><span class="bg '+rvB+'">'+(rvW>=98.5?"OK":"CRITICO")+'</span></div>';
+p1+='<div class="kc"><div class="kl">Stow '+WK[LW]+'</div><div class="kv '+swS+'">'+swW+'%</div><span class="bg '+swB+'">'+(swW>=99.5?"OK":"CRITICO")+'</span></div>';
+p1+='<div class="kc"><div class="kl">Departure '+WK[LW]+'</div><div class="kv '+dpS+'">'+dpW+'%</div><span class="bg '+dpB+'">'+(dpW>=99.5?"OK":"CRITICO")+'</span></div>';
+p1+='<div class="kc"><div class="kl">Volume Total</div><div class="kv" style="font-size:18px">'+fmt(dV)+'</div><span class="bg bg-na">W20</span></div>';
+p1+='<div class="kc"><div class="kl">Nodes Ativos</div><div class="kv">12</div><span class="bg bg-na">excl. EOZ8</span></div>';
+p1+='</div>';
+var nD=D.node_order.filter(function(x){return x!=="EOZ8"});
+p1+='<div class="bx"><h3>PPP por Node</h3><table><thead><tr><th>Node</th><th>Tipo</th>';
+for(w=0;w<NW;w++)p1+='<th>'+WK[w]+'</th>';p1+='<th>Vol '+WK[LW]+'</th><th>D</th><th>Status</th></tr></thead><tbody>';
+nD.forEach(function(nd){var n=D.nodes[nd],lp=lV(n.p),fp=fV(n.p),dl=lp-fp;var d1b=n.d1?' <span class="bg bg-d1">D+1</span>':"";
+p1+='<tr><td><strong>'+nd+'</strong>'+d1b+'</td><td>'+n.t+'</td>';
+for(w=0;w<NW;w++){var p2=Math.round(n.p[w]);p1+='<td class="'+pC(p2)+'">'+p2+'</td>'}
+
+p1+='<td>'+fmt(n.v[LW])+'</td><td class="'+(dl>=0?"dp":"dn")+'">'+(dl>=0?"+":"")+dl+'</td><td>'+pB(lp)+'</td></tr>'});
+p1+='</tbody></table></div>';
+function rY2(p){return Math.round(300-((p-100)/120)*280)}
+p1+='<div class="bx"><h3>PPP Real - Evolucao Regional</h3><p style="font-size:10px;color:#666">Verde=Real Regional | Laranja=Meta 175</p>';
+p1+='<svg width="100%" viewBox="0 0 960 320">';
+p1+='<line x1="80" y1="280" x2="880" y2="280" stroke="#ccc"/>';
+for(var g2=100;g2<=220;g2+=20){var gy2=rY2(g2);p1+='<line x1="80" y1="'+gy2+'" x2="880" y2="'+gy2+'" stroke="#eee"/><text x="70" y="'+(gy2+4)+'" fill="#666" text-anchor="end" font-size="10">'+g2+'</text>'}
+p1+='<line x1="80" y1="'+rY2(META)+'" x2="880" y2="'+rY2(META)+'" stroke="#ff9900" stroke-width="2" stroke-dasharray="7,4"/>';
+var xs2=[130,280,430,580,730,880];
+for(w=0;w<NW;w++)p1+='<text x="'+xs2[w]+'" y="300" fill="#37475a" text-anchor="middle" font-size="11" font-weight="600">'+WK[w]+'</text>';
+var rp3=[];for(w=0;w<NW;w++)rp3.push(xs2[w]+","+rY2(Math.round(dPPP[w])));
+p1+='<polyline points="'+rp3.join(" ")+'" fill="none" stroke="#15803d" stroke-width="2.5"/>';
+for(w=0;w<NW;w++){p1+='<circle cx="'+xs2[w]+'" cy="'+rY2(Math.round(dPPP[w]))+'" r="4" fill="#15803d"/><text x="'+xs2[w]+'" y="'+(rY2(Math.round(dPPP[w]))+14)+'" fill="#15803d" text-anchor="middle" font-size="9" font-weight="700">'+Math.round(dPPP[w])+'</text>'}
+p1+='</svg></div>';
+
+p1+='<div class="bx"><h3>Receive Success % - DF-SUL</h3><p style="font-size:10px;color:#666">Meta: 98.5% | Cor: azul petroleo</p>';
+p1+='<svg width="100%" viewBox="0 0 960 220">';
+var rvMeta=M.meta_recv,rvXs=[130,280,430,580,730,880];
+p1+='<line x1="80" y1="180" x2="880" y2="180" stroke="#ccc"/>';
+for(var g3=95;g3<=101;g3+=1){var gy3=Math.round(180-((g3-95)/6)*160);p1+='<line x1="80" y1="'+gy3+'" x2="880" y2="'+gy3+'" stroke="#eee"/><text x="70" y="'+(gy3+4)+'" fill="#666" text-anchor="end" font-size="9">'+g3+'%</text>'}
+var rvMetaY=Math.round(180-((rvMeta-95)/6)*160);
+p1+='<line x1="80" y1="'+rvMetaY+'" x2="880" y2="'+rvMetaY+'" stroke="#ff9900" stroke-width="2" stroke-dasharray="7,4"/><text x="908" y="'+(rvMetaY+4)+'" fill="#ff9900" font-size="10" font-weight="700">Meta '+rvMeta+'%</text>';
+for(w=0;w<NW;w++)p1+='<text x="'+rvXs[w]+'" y="200" fill="#37475a" text-anchor="middle" font-size="11" font-weight="600">'+WK[w]+'</text>';
+var rvPts=[];for(w=0;w<NW;w++){var rvY3=Math.round(180-((rv[w]-95)/6)*160);rvPts.push(rvXs[w]+","+rvY3)}
+p1+='<polyline points="'+rvPts.join(" ")+'" fill="none" stroke="#0e7490" stroke-width="3"/>';
+for(w=0;w<NW;w++){var rvY4=Math.round(180-((rv[w]-95)/6)*160);var rvC=rv[w]>=rvMeta?"#15803d":"#dc2626";p1+='<circle cx="'+rvXs[w]+'" cy="'+rvY4+'" r="5" fill="'+rvC+'" stroke="#fff" stroke-width="2"/><text x="'+rvXs[w]+'" y="'+(rvY4-10)+'" fill="'+rvC+'" text-anchor="middle" font-size="10" font-weight="700">'+rv[w]+'%</text>'}
+p1+='</svg></div>';
+p1+='<div class="bx"><h3>Stow Success % - DF-SUL</h3><p style="font-size:10px;color:#666">Meta: '+M.meta_stow+'% | D+1: EME8, EUM8</p>';
+p1+='<svg width="100%" viewBox="0 0 960 220">';
+var swMeta=M.meta_stow,swXs=[130,280,430,580,730,880];
+p1+='<line x1="80" y1="180" x2="880" y2="180" stroke="#ccc"/>';
+for(var g4=97;g4<=101;g4+=1){var gy4=Math.round(180-((g4-97)/4)*160);p1+='<line x1="80" y1="'+gy4+'" x2="880" y2="'+gy4+'" stroke="#eee"/><text x="70" y="'+(gy4+4)+'" fill="#666" text-anchor="end" font-size="9">'+g4+'%</text>'}
+var swMetaY=Math.round(180-((swMeta-97)/4)*160);
+p1+='<line x1="80" y1="'+swMetaY+'" x2="880" y2="'+swMetaY+'" stroke="#ff9900" stroke-width="2" stroke-dasharray="7,4"/><text x="885" y="'+(swMetaY+4)+'" fill="#ff9900" font-size="10" font-weight="700">'+swMeta+'%</text>';
+for(w=0;w<NW;w++)p1+='<text x="'+swXs[w]+'" y="200" fill="#37475a" text-anchor="middle" font-size="11" font-weight="600">'+WK[w]+'</text>';
+var swPts=[];for(w=0;w<NW;w++){var swY3=Math.round(180-((swR[w]-97)/4)*160);swPts.push(swXs[w]+","+swY3)}
+p1+='<polyline points="'+swPts.join(" ")+'" fill="none" stroke="#ea580c" stroke-width="3"/>';
+for(w=0;w<NW;w++){var swY4=Math.round(180-((swR[w]-97)/4)*160);var swC=swR[w]>=swMeta?"#15803d":"#dc2626";p1+='<circle cx="'+swXs[w]+'" cy="'+swY4+'" r="5" fill="'+swC+'" stroke="#fff" stroke-width="2"/><text x="'+swXs[w]+'" y="'+(swY4-12)+'" fill="'+swC+'" text-anchor="middle" font-size="10" font-weight="700">'+swR[w].toFixed(2)+'%</text>'}
+p1+='</svg></div>';
+p1+='<div class="bx"><h3>Departure Success % - DF-SUL</h3><p style="font-size:10px;color:#666">Meta: '+M.meta_dep+'% | D+1: EME8, EUM8 (Event202 ate proximo dia util)</p>';
+p1+='<svg width="100%" viewBox="0 0 960 220">';
+var dpMeta=M.meta_dep,dpXs=[130,280,430,580,730,880];
+p1+='<line x1="80" y1="180" x2="880" y2="180" stroke="#ccc"/>';
+for(var g5=90;g5<=101;g5+=2){var gy5=Math.round(180-((g5-90)/11)*160);p1+='<line x1="80" y1="'+gy5+'" x2="880" y2="'+gy5+'" stroke="#eee"/><text x="70" y="'+(gy5+4)+'" fill="#666" text-anchor="end" font-size="9">'+g5+'%</text>'}
+var dpMetaY=Math.round(180-((dpMeta-90)/11)*160);
+p1+='<line x1="80" y1="'+dpMetaY+'" x2="880" y2="'+dpMetaY+'" stroke="#ff9900" stroke-width="2" stroke-dasharray="7,4"/><text x="885" y="'+(dpMetaY+4)+'" fill="#ff9900" font-size="10" font-weight="700">'+dpMeta+'%</text>';
+for(w=0;w<NW;w++)p1+='<text x="'+dpXs[w]+'" y="200" fill="#37475a" text-anchor="middle" font-size="11" font-weight="600">'+WK[w]+'</text>';
+var dpPts=[];for(w=0;w<NW;w++){var dpY3=Math.round(180-((dpR[w]-90)/11)*160);dpPts.push(dpXs[w]+","+dpY3)}
+p1+='<polyline points="'+dpPts.join(" ")+'" fill="none" stroke="#15803d" stroke-width="3"/>';
+for(w=0;w<NW;w++){var dpY4=Math.round(180-((dpR[w]-90)/11)*160);var dpC=dpR[w]>=dpMeta?"#15803d":"#dc2626";p1+='<circle cx="'+dpXs[w]+'" cy="'+dpY4+'" r="5" fill="'+dpC+'" stroke="#fff" stroke-width="2"/><text x="'+dpXs[w]+'" y="'+(dpY4-12)+'" fill="'+dpC+'" text-anchor="middle" font-size="10" font-weight="700">'+dpR[w].toFixed(2)+'%</text>'}
+p1+='</svg></div>';
+p1+='<div class="ins"><h4>Analise</h4>';
+p1+='<p><strong>Tendencia:</strong> PPP Real '+Math.round(dPPP[0])+' a '+Math.round(dPPP[LW])+' (+'+dD+' pts W15-W20).</p>';
+p1+='<p><strong>'+nOK+' OK:</strong> '+okL.join(", ")+'</p>';
+p1+='<p><strong>'+nCR+' CRITICO:</strong> '+crL.join(", ")+'</p>';
+p1+='<p><strong>Nodes D+1:</strong> EME8, EUM8 (Stow/Departure)</p></div>';
+document.getElementById("p1").innerHTML=p1;
+
+});
+</script>
+<div class="ins" style="margin-top:30px;text-align:center;border-left-color:#232f3e">
+<span>FM METRICS PPP Dashboard - DF-SUL W15 a W20 / 2026 | Amazon Logistics Brasil</span><br>
+<span style="font-size:10px">Atualizado: 15/05/2026 23:31 | Fonte: [BR TRANS] FM METRICS</span>
+</div>
+</div>
+
+<div class="update-modal" id="updateModal">
+<div class="update-modal-box">
+<h3>&#128203; Prompt para Atualizar PPP Dashboard</h3>
+<p>Copie o texto abaixo e cole no chat para receber o dashboard PPP atualizado com dados da proxima semana:</p>
+<textarea id="promptText" readonly></textarea>
+<div class="copy-ok" id="copyOk">&#10004; Copiado para a area de transferencia!</div>
+<div class="btn-row">
+<button class="btn-close" onclick="closeUpdateModal()">Fechar</button>
+<button class="btn-copy" onclick="copyPrompt()">&#128203; Copiar Prompt</button>
+</div>
+</div>
+</div>
+<script>
+function openUpdateModal(){
+  var lines=[
+    "Atualizar o HTML do dashboard PPP FM METRICS com os dados mais recentes da semana atual.",
+    "",
+    "Regras:",
+    "- Buscar dados no dashboard [BR TRANS] FM METRICS, aba Grouped level (Node), filtro Weekly",
+    "- Atualizar apenas a ultima semana (adicionar proxima semana disponivel)",
+    "- PPP: Se NaN no dashboard para PN nodes (EME8, EMR8), calcular via filtro combinado ou manter valor anterior. Nunca registrar PPP zerado para nodes que operam normalmente.",
+    "- Departure D+1: Para EME8 e EUM8, aplicar regra D+1 (miss so conta se sem Event202 ate proximo dia util). Usar valor corrigido, nao o raw do dashboard.",
+    "- EOZ8: PPP em branco = 0 (ofensor)",
+    "- Regional DF-SUL: Recalcular departure removendo misses D+1 de EME8 e EUM8",
+    "- Manter dados W15-W20 inalterados, apenas adicionar a semana mais recente",
+    "- Incluir o botao de atualizar no HTML gerado",
+    "- Formato: HTML single-file com todas as 5 abas funcionais (Visao Geral, DF-SUL, Simulador, VSM, Truck Utilization)",
+    "",
+    "Anexar o arquivo html atual para referencia."
+  ];
+  document.getElementById("promptText").value=lines.join(String.fromCharCode(10));
+  document.getElementById("updateModal").classList.add("show");
+}
+function closeUpdateModal(){document.getElementById("updateModal").classList.remove("show")}
+function copyPrompt(){
+  var ta=document.getElementById("promptText");
+  ta.select();ta.setSelectionRange(0,99999);
+  navigator.clipboard.writeText(ta.value).then(function(){
+    document.getElementById("copyOk").style.display="block";
+    setTimeout(function(){document.getElementById("copyOk").style.display="none"},3000);
+  }).catch(function(){document.execCommand("copy");document.getElementById("copyOk").style.display="block";setTimeout(function(){document.getElementById("copyOk").style.display="none"},3000)});
+}
+document.getElementById("updateModal").addEventListener("click",function(e){if(e.target===this)closeUpdateModal()});
+document.getElementById("btnUpdatePPP").addEventListener("click",openUpdateModal);
+</script>
+</body>
+</html>
+
+
