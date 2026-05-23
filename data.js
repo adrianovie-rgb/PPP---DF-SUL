@@ -1,5 +1,5 @@
 var D = {
-  "lastUpdate": "Fri May 22 2026 00:00:00 GMT-0300 (Brasilia Standard Time) Sat Dec 30 1899 21:14:00 GMT-0306 (Brasilia Standard Time)",
+  "lastUpdate": "Sat May 23 2026 00:00:00 GMT-0300 (Brasilia Standard Time) Sat Dec 30 1899 00:32:00 GMT-0306 (Brasilia Standard Time)",
   "meta": {
     "ppp": 175
   },
@@ -354,12 +354,12 @@ var D = {
   },
   "regional_ppp": {
     "DF-SUL": [
-      162.9999,
-      179.1383,
-      193.4285,
-      184.5816,
-      190.1343,
-      184.0473
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
     ]
   },
   "ppp_comparativo": {
