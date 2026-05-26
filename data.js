@@ -1,1 +1,1 @@
-var D = {  "lastUpdate": "Tue May 26 2026 00:00:00 GMT-0300 (Brasilia Standard Time) Sat Dec 30 1899 00:08:00 GMT-0306 (Brasilia Standard Time)",  "semanas": ["W15","W16","W17","W18","W19","W20","W21"],  "meta": 175,  "regionais": {},  "nodes": {}};
+var D = {  "lastUpdate": "Tue May 26 2026 00:00:00 GMT-0300 (Brasilia Standard Time) Sat Dec 30 1899 05:56:00 GMT-0306 (Brasilia Standard Time)",  "semanas": ["W15","W16","W17","W18","W19","W20","W21"],  "meta": 175,  "regionais": {},  "nodes": {}};
